@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронювання | кава мрії</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">кава мрії</div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <a href="index.html">Головна</a>
+            <a href="menu.html">Меню</a>
+            <a href="booking.html" class="active">Бронювання</a>
+        </nav>
+    </header>
+    <section class="parallax booking-section">
+        <div class="booking-form-container">
+            <h2>🍽️ Забронювати столик</h2>
+            <form action="#" method="POST" id="bookingForm">
+                <div class="form-group">
+                    <label for="name">👤 Ваше повне ім'я</label>
+                    <input type="text" id="name" name="name" required placeholder="Іван Петренко">
+                    <span class="form-error" id="nameError"></span>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group form-group-half">
+                        <label for="date">📅 Дата бронювання</label>
+                        <input type="date" id="date" name="date" required>
+                        <span class="form-error" id="dateError"></span>
+                    </div>
+
+                    <div class="form-group form-group-half">
+                        <label for="time">🕐 Бажаний час</label>
+                        <input type="time" id="time" name="time" min="09:00" max="22:00" required>
+                        <span class="form-error" id="timeError"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="guests">👥 Кількість гостей</label>
+                    <div class="guests-selector">
+                        <button type="button" class="guest-btn" id="minusBtn">−</button>
+                        <input type="number" id="guests" name="guests" min="1" max="15" value="2" readonly>
+                        <button type="button" class="guest-btn" id="plusBtn">+</button>
+                    </div>
+                </div>
+
+                
+
+                <button type="submit" class="btn btn-full" aria-required="true">✓ Підтвердити бронювання</button>
+            </form>
+        </div>
+        
+    </section>
+    
+
+    <script>
+        const minusBtn = document.getElementById('minusBtn');
+        const plusBtn = document.getElementById('plusBtn');
+        const guestInput = document.getElementById('guests');
+        minusBtn.addEventListener('click', () => {
+            let currentValue = parseInt(guestInput.value);
+            if (currentValue > 1) {
+                guestInput.value = currentValue - 1;
+            }
+        });
+        plusBtn.addEventListener('click', () => {
+            let currentValue = parseInt(guestInput.value);
+            if (currentValue < 15) {
+                guestInput.value = currentValue + 1;
+            }
+        });
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            let isValid = true;
+            const name = document.getElementById('name').value.trim();
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const agree = document.getElementById('agree').checked;
+            
+            document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+            
+            if (name.length < 3) {
+                document.getElementById('nameError').textContent = 'Ім\'я повинно містити мінімум 3 символи';
+                isValid = false;
+            }
+            
+            if (!date) {
+                document.getElementById('dateError').textContent = 'Виберіть дату';
+                isValid = false;
+            }
+            
+            if (!time) {
+                document.getElementById('timeError').textContent = 'Виберіть час';
+                isValid = false;
+            }
+            
+            if (!agree) {
+                alert('Будь ласка, согласьте з умовами');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                alert('✓ Бронювання успішне! Дякуємо за замовлення.');
+                bookingForm.reset();
+                guestInput.value = 2;
+            }
+        });
+    </script>
+    
+    <footer>
+        <p>&copy; 2026 кава мрії.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
